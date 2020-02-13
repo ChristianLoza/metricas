@@ -17,7 +17,3 @@ kumuluzee:
     enabled: true
     ui:
       enabled: true
-  security:
-    roles:
-      user: role_user
-      admin: role_admin

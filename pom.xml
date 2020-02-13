@@ -15,6 +15,8 @@
         <kumuluzee-swagger.version>1.2.2</kumuluzee-swagger.version>
         <kumuluzee-rest.version>1.2.3</kumuluzee-rest.version>
         
+        <kumuluzee-cors.version>1.0.5</kumuluzee-cors.version>
+        
         <mysql-version>5.1.48</mysql-version>
         <lombok-version>1.18.10</lombok-version>
         
@@ -62,6 +64,12 @@
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-jta-narayana</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.kumuluz.ee.cors</groupId>
+            <artifactId>kumuluzee-cors</artifactId>
+            <version>${kumuluzee-cors.version}</version>
         </dependency>
         
         

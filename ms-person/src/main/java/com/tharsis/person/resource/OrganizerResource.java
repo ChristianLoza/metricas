@@ -2,7 +2,6 @@ package com.tharsis.person.resource;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -39,28 +38,27 @@ public class OrganizerResource {
         organizerLogic.saveOrganizer(organizer);
         return Response.ok(organizer).build();
     }
-    
+
     @POST
     @Path("edit")
     public Response updateOrganizer(Organizer organizer) {
         organizerLogic.updateOrganizer(organizer);
         return Response.ok().build();
     }
-    
+
     @POST
     @Path("delete")
-    public Response deleteOrganizer(Organizer organizer){
+    public Response deleteOrganizer(Organizer organizer) {
         organizerLogic.deleteOrganizer(organizer);
         return Response.ok().build();
     }
 
     @GET
     @Path("list")
-    @RolesAllowed("user")
     public Response getAllOrganizer() {
         return Response.ok(organizerLogic.allOrganizer()).build();
     }
-    
+
     @GET
     @Path("{id}")
     public Response getOrganizer(@PathParam("id") Integer id) {
