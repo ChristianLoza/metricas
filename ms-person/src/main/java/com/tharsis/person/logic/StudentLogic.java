@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 
+import com.kumuluz.ee.logs.cdi.Log;
+import com.kumuluz.ee.logs.cdi.LogParams;
 import com.ms.persist.RepositoryJPA;
+import com.ms.util.UtilConstant;
+import com.ms.util.UtilEncrypt;
 import com.tharsis.person.domain.Student;
 
 /**
@@ -16,26 +19,24 @@ import com.tharsis.person.domain.Student;
  * @author christian
  */
 @RequestScoped
+@Log(LogParams.METRICS)
 public class StudentLogic extends RepositoryJPA<Student, Serializable> {
-
-    @Inject
-    private PersonLogic personLogic;
     
-    
-
     public void saveStudent(Student student) {
-        student.setIdstudent(personLogic.savePerson(student.getPerson())
-                .getIdperson());
+        student.getPerson().setPassword(UtilEncrypt.encryptToSha1(student.getPerson().getPassword()));
+        student.getPerson().setStatus(UtilConstant.ACTIVO);
         add(student);
     }
 
     public void updateStudent(Student student) {
-        personLogic.editPerson(student.getPerson());
+        student.getPerson().setStatus(UtilConstant.ACTIVO);
+        System.out.println(student.toString());
         update(student);
     }
 
-    public void deleteStudent(Student student) {
-        personLogic.deletePerson(student.getPerson());
+    public void deleteStudent(int idStudent) {
+        Student student = findById(Student.class, idStudent);        
+        delete(student);
     }
 
     public List<Student> findStudentById(Integer id) {

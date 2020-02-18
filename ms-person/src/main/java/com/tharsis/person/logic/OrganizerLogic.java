@@ -24,7 +24,7 @@ public class OrganizerLogic extends RepositoryJPA<Organizer, Serializable> {
     private PersonLogic personLogic;
 
     public void saveOrganizer(Organizer organizer) {
-        organizer.setPassword(UtilEncrypt.encryptToSha1(organizer.getPassword()));
+        organizer.getPerson().setPassword(UtilEncrypt.encryptToSha1(organizer.getPerson().getPassword()));
         organizer.getPerson().setStatus(UtilConstant.ACTIVO);
         add(organizer);
 
@@ -37,7 +37,7 @@ public class OrganizerLogic extends RepositoryJPA<Organizer, Serializable> {
     public void updateOrganizer(Organizer organizer) {
         //Organizer findOrganizer = findById(Organizer.class, organizer.getIdorganizer());
         //personLogic.editPerson(organizer.getPerson());
-        organizer.setPassword(UtilEncrypt.encryptToSha1(organizer.getPassword()));
+        organizer.getPerson().setPassword(UtilEncrypt.encryptToSha1(organizer.getPerson().getPassword()));
         update(organizer);
     }
 

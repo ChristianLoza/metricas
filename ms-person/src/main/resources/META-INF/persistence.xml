@@ -6,8 +6,5 @@
     <class>com.tharsis.person.domain.Student</class>
     <class>com.tharsis.person.domain.Person</class>
     <class>com.tharsis.person.domain.Organizer</class>
-    <properties>
-      <property name="hibernate.show_sql" value="true"/>
-    </properties>
   </persistence-unit>
 </persistence>
