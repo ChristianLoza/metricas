@@ -30,8 +30,8 @@ public class StudentLogic extends RepositoryJPA<Student, Serializable> {
 
     public void updateStudent(int id, Student student) {
         Student findStudent = findById(Student.class, id);
-        student.setIdStudent(findStudent.getIdStudent());
-        student.getPerson().setIdPerson(findStudent.getPerson().getIdPerson());
+        student.setIdstudent(findStudent.getIdstudent());
+        student.getPerson().setIdperson(findStudent.getPerson().getIdperson());
         if((student.getPerson().getPassword()).equals(""))
             student.getPerson().setPassword(findStudent.getPerson().getPassword());
         else

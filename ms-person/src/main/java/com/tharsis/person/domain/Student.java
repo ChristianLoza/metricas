@@ -44,10 +44,10 @@ public class Student implements Serializable {
     @NotNull
     @Column(name = "idstudent")
     @JsonIgnore
-    private Integer idStudent;
+    private Integer idstudent;
     @NotNull
     @Column(name = "idnfc")
-    private String idNfc;
+    private String idnfc;
     @JoinColumn(name = "idstudent", referencedColumnName = "idperson")
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapsId

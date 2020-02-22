@@ -18,7 +18,7 @@ import com.tharsis.util.UtilEncrypt;
  */
 @RequestScoped
 public class OrganizerLogic extends RepositoryJPA<Organizer, Serializable> {
-
+    
     public void saveOrganizer(Organizer organizer) {
         organizer.getPerson().setPassword(UtilEncrypt.encryptToSha1(organizer.getPerson().getPassword()));
         organizer.getPerson().setStatus(UtilConstant.ENABLE);
@@ -27,8 +27,8 @@ public class OrganizerLogic extends RepositoryJPA<Organizer, Serializable> {
 
     public void updateOrganizer(int id, Organizer organizer) {
         Organizer findOrganizer = findById(Organizer.class, id);
-        organizer.setIdOrganizer(findOrganizer.getIdOrganizer());
-        organizer.getPerson().setIdPerson(findOrganizer.getPerson().getIdPerson());
+        organizer.setIdorganizer(findOrganizer.getIdorganizer());
+        organizer.getPerson().setIdperson(findOrganizer.getPerson().getIdperson());
         if((organizer.getPerson().getPassword().equals("")))
             organizer.getPerson().setPassword(findOrganizer.getPerson().getPassword());
         else

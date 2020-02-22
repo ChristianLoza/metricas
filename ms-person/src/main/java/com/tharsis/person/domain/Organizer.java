@@ -38,7 +38,7 @@ public class Organizer implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    private Integer idOrganizer;
+    private Integer idorganizer;
 
 //    @JoinColumn(name = "idorganizer", referencedColumnName = "idperson", insertable = false, updatable = false)
     // OneToOne(optional = false)
