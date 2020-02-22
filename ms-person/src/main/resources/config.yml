@@ -2,7 +2,7 @@ kumuluzee:
   name: ms-person
   version: 1.0
   server:
-    base-url: http://localhost:8080
+    base-url: http://127.0.0.1:8080
     http:
       port: 8080
       

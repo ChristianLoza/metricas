@@ -5,8 +5,10 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -39,17 +41,16 @@ public class OrganizerResource {
         return Response.ok(organizer).build();
     }
 
-    @POST
-    @Path("edit")
-    public Response updateOrganizer(Organizer organizer) {
-        organizerLogic.updateOrganizer(organizer);
+    @PUT
+    @Path("edit/{id}")
+    public Response updateOrganizer(@PathParam("id") Integer id, Organizer organizer) {
+        organizerLogic.updateOrganizer(id, organizer);
         return Response.ok().build();
     }
 
-    @POST
-    @Path("delete")
-    public Response deleteOrganizer(Organizer organizer) {
-        organizerLogic.deleteOrganizer(organizer);
+    @DELETE
+    @Path("delete/{id}")
+    public Response deleteOrganizer(@PathParam("id")Integer id, Organizer organizer) {
         return Response.ok().build();
     }
 

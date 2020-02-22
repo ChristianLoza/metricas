@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 
-import com.ms.persist.RepositoryJPA;
-import com.ms.util.UtilConstant;
-import com.ms.util.UtilEncrypt;
+import com.tharsis.persist.RepositoryJPA;
 import com.tharsis.person.domain.Organizer;
+import com.tharsis.util.UtilConstant;
+import com.tharsis.util.UtilEncrypt;
 
 /**
  *
@@ -20,29 +19,27 @@ import com.tharsis.person.domain.Organizer;
 @RequestScoped
 public class OrganizerLogic extends RepositoryJPA<Organizer, Serializable> {
 
-    @Inject
-    private PersonLogic personLogic;
-
     public void saveOrganizer(Organizer organizer) {
         organizer.getPerson().setPassword(UtilEncrypt.encryptToSha1(organizer.getPerson().getPassword()));
-        organizer.getPerson().setStatus(UtilConstant.ACTIVO);
+        organizer.getPerson().setStatus(UtilConstant.ENABLE);
         add(organizer);
-
-//        organizer.setIdorganizer(personLogic.savePerson(organizer.getPerson())
-//                .getIdperson());
-//        organizer.setPassword(UtilEncrypt.encryptToSha1(organizer.getPassword()));
-//        add(organizer);
     }
 
-    public void updateOrganizer(Organizer organizer) {
-        //Organizer findOrganizer = findById(Organizer.class, organizer.getIdorganizer());
-        //personLogic.editPerson(organizer.getPerson());
-        organizer.getPerson().setPassword(UtilEncrypt.encryptToSha1(organizer.getPerson().getPassword()));
+    public void updateOrganizer(int id, Organizer organizer) {
+        Organizer findOrganizer = findById(Organizer.class, id);
+        organizer.setIdOrganizer(findOrganizer.getIdOrganizer());
+        organizer.getPerson().setIdPerson(findOrganizer.getPerson().getIdPerson());
+        if((organizer.getPerson().getPassword().equals("")))
+            organizer.getPerson().setPassword(findOrganizer.getPerson().getPassword());
+        else
+            organizer.getPerson().setPassword(UtilEncrypt.encryptToSha1(organizer.getPerson().getPassword()));                
         update(organizer);
     }
 
-    public void deleteOrganizer(Organizer organizer) {
-        personLogic.deletePerson(organizer.getPerson());        
+    public void deleteOrganizer(int id) {
+        Organizer organizer = findById(Organizer.class, id);
+        organizer.getPerson().setStatus(UtilConstant.DISABLE);
+        update(organizer);
     }
 
     public List<Organizer> findOrganizer(Integer id) {  

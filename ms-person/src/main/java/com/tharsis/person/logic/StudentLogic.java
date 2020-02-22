@@ -9,10 +9,10 @@ import javax.enterprise.context.RequestScoped;
 
 import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.logs.cdi.LogParams;
-import com.ms.persist.RepositoryJPA;
-import com.ms.util.UtilConstant;
-import com.ms.util.UtilEncrypt;
+import com.tharsis.persist.RepositoryJPA;
 import com.tharsis.person.domain.Student;
+import com.tharsis.util.UtilConstant;
+import com.tharsis.util.UtilEncrypt;
 
 /**
  *
@@ -21,26 +21,31 @@ import com.tharsis.person.domain.Student;
 @RequestScoped
 @Log(LogParams.METRICS)
 public class StudentLogic extends RepositoryJPA<Student, Serializable> {
-    
+
     public void saveStudent(Student student) {
         student.getPerson().setPassword(UtilEncrypt.encryptToSha1(student.getPerson().getPassword()));
-        student.getPerson().setStatus(UtilConstant.ACTIVO);
+        student.getPerson().setStatus(UtilConstant.ENABLE);
         add(student);
     }
 
-    public void updateStudent(Student student) {
-        student.getPerson().setStatus(UtilConstant.ACTIVO);
-        System.out.println(student.toString());
+    public void updateStudent(int id, Student student) {
+        Student findStudent = findById(Student.class, id);
+        student.setIdStudent(findStudent.getIdStudent());
+        student.getPerson().setIdPerson(findStudent.getPerson().getIdPerson());
+        if((student.getPerson().getPassword()).equals(""))
+            student.getPerson().setPassword(findStudent.getPerson().getPassword());
+        else
+            student.getPerson().setPassword(UtilEncrypt.encryptToSha1(student.getPerson().getPassword()));
         update(student);
     }
 
-    public void deleteStudent(int idStudent) {
-        Student student = findById(Student.class, idStudent);        
-        delete(student);
+    public void deleteStudent(int id) {
+        Student student = findById(Student.class, id);
+        student.getPerson().setStatus(UtilConstant.DISABLE);
+        update(student);
     }
 
     public List<Student> findStudentById(Integer id) {
-        
         Map<String, Object> param = new HashMap<>();
         param.put("idperson", id);
         List<Student> list = createNamedQuery("Student.findByIdstudent", param)
@@ -57,7 +62,6 @@ public class StudentLogic extends RepositoryJPA<Student, Serializable> {
                 .setMaxResults(1)
                 .getResultList();
         return list;
-
     }
 
     public List<Student> allStudent() {

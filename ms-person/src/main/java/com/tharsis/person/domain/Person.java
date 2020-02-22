@@ -3,14 +3,13 @@ package com.tharsis.person.domain;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,6 +25,9 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "person")
+@NamedQueries({
+    @NamedQuery(name="Person.login", query="SELECT p.role FROM Person p WHERE p.dni = :dni AND p.password = :password AND p.status = 1")
+})
 @Getter
 @Setter
 public class Person implements Serializable {
@@ -35,7 +37,8 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idperson")
-    private Integer idperson;
+    @JsonIgnore
+    private Integer idPerson;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -45,7 +48,7 @@ public class Person implements Serializable {
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "lastname")
-    private String lastname;
+    private String lastName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
@@ -63,11 +66,12 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "status")
+    @JsonIgnore
     private int status;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
-    private Student student;
+//    @JsonIgnore
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
+//    private Student student;
 
     //@JsonIgnore
     //@OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)

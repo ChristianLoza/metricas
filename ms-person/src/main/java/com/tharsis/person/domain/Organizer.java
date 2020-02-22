@@ -38,12 +38,12 @@ public class Organizer implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    private Integer idorganizer;
+    private Integer idOrganizer;
 
 //    @JoinColumn(name = "idorganizer", referencedColumnName = "idperson", insertable = false, updatable = false)
     // OneToOne(optional = false)
-   @JoinColumn(name = "idorganizer", referencedColumnName = "idperson")
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idorganizer", referencedColumnName = "idperson")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapsId
     private Person person;
 

@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
 
-import com.ms.persist.RepositoryJPA;
-import com.ms.util.UtilConstant;
+import com.tharsis.persist.RepositoryJPA;
 import com.tharsis.person.domain.Person;
+import com.tharsis.util.UtilConstant;
 
 /**
  *
@@ -14,9 +14,9 @@ import com.tharsis.person.domain.Person;
  */
 @RequestScoped
 public class PersonLogic extends RepositoryJPA<Person, Serializable> {
-
-    public Person savePerson(Person person) {        
-        person.setStatus(UtilConstant.ACTIVO);
+    
+    public Person savePerson(Person person) {
+        person.setStatus(UtilConstant.ENABLE);
         return add(person);
     }
 
@@ -25,7 +25,7 @@ public class PersonLogic extends RepositoryJPA<Person, Serializable> {
     }
 
     public Person deletePerson(Person person) {
-        person.setStatus(UtilConstant.INACTIVO);
+        person.setStatus(UtilConstant.DISABLE);
         return update(person);
     }
 

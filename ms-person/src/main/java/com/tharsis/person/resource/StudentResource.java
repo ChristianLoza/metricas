@@ -40,9 +40,9 @@ public class StudentResource {
     }
 
     @PUT
-    @Path("edit")
-    public Response updateStudent(Student student) {
-        studentLogic.updateStudent(student);
+    @Path("edit/{id}")
+    public Response updateStudent(@PathParam("id") Integer id, Student student) {
+        studentLogic.updateStudent(id, student);
         return Response.ok().build();
     }
 
