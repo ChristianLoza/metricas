@@ -14,7 +14,7 @@ import com.tharsis.util.UtilConstant;
  */
 @RequestScoped
 public class PersonLogic extends RepositoryJPA<Person, Serializable> {
-    
+
     public Person savePerson(Person person) {
         person.setStatus(UtilConstant.ENABLE);
         return add(person);

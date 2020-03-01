@@ -29,11 +29,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "eventregister")
 @NamedQueries({
-    @NamedQuery(name = "Eventregister.findAll", query = "SELECT e FROM Eventregister e"),
-    @NamedQuery(name = "Eventregister.findByIdeventregister", query = "SELECT e FROM Eventregister e WHERE e.ideventregister = :ideventregister"),
-    @NamedQuery(name = "Eventregister.findByIdstudent", query = "SELECT e FROM Eventregister e WHERE e.idstudent = :idstudent"),
-    @NamedQuery(name = "Eventregister.findByTimeentry", query = "SELECT e FROM Eventregister e WHERE e.timeentry = :timeentry"),
-    @NamedQuery(name = "Eventregister.findByStatus", query = "SELECT e FROM Eventregister e WHERE e.status = :status")})
+    @NamedQuery(name="Eventregister.findAllbyIdStudent",query="SELECT DISTINCT e.eventname, e.credit, e.dateevent FROM Eventregister er JOIN er.idevent e WHERE er.idstudent = :idstudent AND e.status = 1"),
+    @NamedQuery(name="Eventregister.findAllStudentbyEvent", query ="SELECT DISTINCT(er.idstudent) FROM Eventregister er JOIN er.idevent e JOIN er.idevent e WHERE e.idevent =:idevent")
+})
 @Getter
 @Setter
 public class Eventregister implements Serializable {
@@ -58,6 +56,7 @@ public class Eventregister implements Serializable {
     @Column(name = "status")
     private int status;
     @JoinColumn(name = "idevent", referencedColumnName = "idevent")
+    //@ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Event idevent;
 

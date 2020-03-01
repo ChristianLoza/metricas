@@ -13,8 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EventVO {
+
     private Integer idTypeEvent;
-    
     private Integer idEvent;
     private int idorganizer;
     private String eventname;

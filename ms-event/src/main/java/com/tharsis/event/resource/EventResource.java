@@ -28,46 +28,52 @@ import io.swagger.annotations.Api;
 @Path("event")
 @Api(tags = "Event")
 public class EventResource {
-    
+
     @Inject
     private EventLogic eventLogic;
-    
+
     @POST
     @Path("add")
     public Response saveEvent(EventVO eventVO) {
         eventLogic.saveEvent(eventVO);
         return Response.ok().build();
     }
-    
+
     @PUT
     @Path("edit")
     public Response updateEvent(EventVO eventVO) {
         eventLogic.updateEvent(eventVO);
         return Response.ok().build();
     }
-    
+
     @DELETE
     @Path("delete/{idEvent}")
     public Response deleteEvent(@PathParam("idEvent") Integer idEvent) {
         eventLogic.deleteEvent(idEvent);
         return Response.noContent().build();
     }
-    
+
     @GET
     @Path("{id}")
     public Response getEventId(@PathParam("id") Integer id) {
-          return Response.ok(eventLogic.findEventById(id)).build();
+        return Response.ok(eventLogic.findEventById(id)).build();
     }
-    
+
     @GET
     @Path("list")
     public Response getListEvent() {
         return Response.ok(eventLogic.allActiveEvent()).build();
     }
-    
+
     @GET
     @Path("listByTypeEvent/{idTypeEvent}")
-    public Response getListEventByType(@PathParam("idTypeEvent")Integer idTypeEvent){
+    public Response getListEventByType(@PathParam("idTypeEvent") Integer idTypeEvent) {
         return Response.ok(eventLogic.allActiveEventByTypeEvent(idTypeEvent)).build();
+    }
+
+    @GET
+    @Path("listBydate")
+    public Response listEventBydate() {
+        return Response.ok(eventLogic.findAllEventByDate()).build();
     }
 }

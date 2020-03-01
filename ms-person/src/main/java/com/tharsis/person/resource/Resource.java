@@ -13,8 +13,8 @@ import io.swagger.annotations.SwaggerDefinition;
  * @author christian
  */
 @ApplicationPath("v1")
-@SwaggerDefinition(info = @Info(title = "Person-REST", version = "v1.0.0"), host = "localhost:8080")
+@SwaggerDefinition(info = @Info(title = "Person-REST", version = "v1.0.0"), host = "localhost:8081")
 @CrossOrigin
-public class PersonApplication extends Application {
+public class Resource extends Application {
 
 }

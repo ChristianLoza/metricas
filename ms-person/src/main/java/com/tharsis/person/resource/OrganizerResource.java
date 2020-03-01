@@ -50,7 +50,7 @@ public class OrganizerResource {
 
     @DELETE
     @Path("delete/{id}")
-    public Response deleteOrganizer(@PathParam("id")Integer id, Organizer organizer) {
+    public Response deleteOrganizer(@PathParam("id") Integer id, Organizer organizer) {
         return Response.ok().build();
     }
 

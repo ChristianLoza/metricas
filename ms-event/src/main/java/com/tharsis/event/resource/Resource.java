@@ -15,5 +15,5 @@ import io.swagger.annotations.SwaggerDefinition;
 @ApplicationPath("v1")
 @SwaggerDefinition(info = @Info(title = "Event-REST", version = "v1.0.0"), host = "localhost:8082")
 @CrossOrigin
-public class Resource extends Application{    
+public class Resource extends Application {
 }

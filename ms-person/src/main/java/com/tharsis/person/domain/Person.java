@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,8 +26,7 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "person")
-@NamedQueries({
-})
+@NamedQueries({})
 @Getter
 @Setter
 public class Person implements Serializable {
@@ -66,11 +67,15 @@ public class Person implements Serializable {
     @Column(name = "status")
     @JsonIgnore
     private int status;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 //    @JsonIgnore
 //    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
 //    private Student student;
-
     //@JsonIgnore
     //@OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
     //private Organizer organizer;

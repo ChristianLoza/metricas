@@ -1,6 +1,7 @@
 package com.tharsis.event.logic;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ public class EventLogic extends RepositoryJPA<Event, Serializable> {
     private EventTypeLogic eventTypeLogic;
 
     public void saveEvent(EventVO eventVO) {
+        eventVO.setIdEvent(null);
         Event event = UtilObject.objeto(eventVO, Event.class);
         event.setStatus(UtilConstant.ENABLE);
         event.setIdtypeevent(eventTypeLogic
@@ -77,6 +79,14 @@ public class EventLogic extends RepositoryJPA<Event, Serializable> {
 
     public List<Event> allExpiredEvent() {
         return findAll("Event.findExpired");
+    }
+    
+    public List<Event> findAllEventByDate() {
+        Map<String, Object> param = new HashMap<>();
+        param.put("datenow", new Date());
+        List<Event> list = createNamedQuery("Event.findAllEventByDate", param)
+                .getResultList();
+        return list;
     }
     
     private void checkexpiredEvent() {

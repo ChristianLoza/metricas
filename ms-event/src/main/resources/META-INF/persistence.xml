@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="ms-event-PU" transaction-type="JTA">
-    <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <jta-data-source>jdbc/ms-eventDS</jta-data-source>
-    <class>com.tharsis.event.domain.Event</class>
-    <class>com.tharsis.event.domain.EventRegister</class>
-    <class>com.tharsis.event.domain.EventType</class>
-    <class>com.tharsis.event.domain.Eventregister</class>
-    <class>com.tharsis.event.domain.Eventtype</class>
-  </persistence-unit>
+    <persistence-unit name="ms-event-PU" transaction-type="JTA">
+        <jta-data-source>jdbc/ms-eventDS</jta-data-source>
+        <class>com.tharsis.event.domain.Event</class>
+        <class>com.tharsis.event.domain.Eventregister</class>
+        <class>com.tharsis.event.domain.Eventtype</class>
+    </persistence-unit>
 </persistence>

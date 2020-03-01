@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 
-import com.kumuluz.ee.logs.cdi.Log;
-import com.kumuluz.ee.logs.cdi.LogParams;
 import com.tharsis.persist.RepositoryJPA;
 import com.tharsis.person.domain.Student;
 import com.tharsis.util.UtilConstant;
@@ -19,7 +17,7 @@ import com.tharsis.util.UtilEncrypt;
  * @author christian
  */
 @RequestScoped
-@Log(LogParams.METRICS)
+//@Log(LogParams.METRICS)
 public class StudentLogic extends RepositoryJPA<Student, Serializable> {
 
     public void saveStudent(Student student) {
@@ -32,10 +30,11 @@ public class StudentLogic extends RepositoryJPA<Student, Serializable> {
         Student findStudent = findById(Student.class, id);
         student.setIdstudent(findStudent.getIdstudent());
         student.getPerson().setIdperson(findStudent.getPerson().getIdperson());
-        if((student.getPerson().getPassword()).equals(""))
+        if ((student.getPerson().getPassword()).equals("")) {
             student.getPerson().setPassword(findStudent.getPerson().getPassword());
-        else
+        } else {
             student.getPerson().setPassword(UtilEncrypt.encryptToSha1(student.getPerson().getPassword()));
+        }
         update(student);
     }
 
@@ -45,7 +44,7 @@ public class StudentLogic extends RepositoryJPA<Student, Serializable> {
         update(student);
     }
 
-    public List<Student> findStudentById(Integer id) {
+    public List<Student> findStudentById(int id) {
         Map<String, Object> param = new HashMap<>();
         param.put("idperson", id);
         List<Student> list = createNamedQuery("Student.findByIdstudent", param)

@@ -28,36 +28,37 @@ import io.swagger.annotations.Api;
 @Path("eventtype")
 @Api(tags = "Event Type")
 public class EventTypeResource {
-    
+
     @Inject
     private EventTypeLogic eventTypeLogic;
-    
+
     @POST
     @Path("add")
-    public Response saveEventType(Eventtype eventType){
+    public Response saveEventType(Eventtype eventType) {
         eventTypeLogic.saveTypeEvent(eventType);
         return Response.ok().build();
     }
-    
+
     @PUT
     @Path("edit/{id}")
     public Response updateEventType(@PathParam("id") Integer id, Eventtype eventType) {
         eventTypeLogic.updateTypeEvent(id, eventType);
         return Response.ok().build();
     }
-    
+
     @DELETE
     @Path("delete/{id}")
     public Response deleteEventType(@PathParam("id") Integer id) {
         eventTypeLogic.deleteTypeEvent(id);
         return Response.noContent().build();
     }
+
     @GET
     @Path("/{id}")
-    public Response getEventTypeId(@PathParam("id") Integer id){        
+    public Response getEventTypeId(@PathParam("id") Integer id) {
         return Response.ok(eventTypeLogic.findEvenTypeById(id)).build();
     }
-    
+
     @GET
     @Path("list")
     public Response getAllEventType() {
