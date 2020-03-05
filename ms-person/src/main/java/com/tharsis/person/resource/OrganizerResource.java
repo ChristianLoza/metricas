@@ -15,7 +15,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.tharsis.person.auth.Secured;
 import com.tharsis.person.domain.Organizer;
+import com.tharsis.person.domain.Role;
 import com.tharsis.person.logic.OrganizerLogic;
 
 import io.swagger.annotations.Api;
@@ -56,6 +58,7 @@ public class OrganizerResource {
 
     @GET
     @Path("list")
+    @Secured(Role.ORGANIZER)
     public Response getAllOrganizer() {
         return Response.ok(organizerLogic.allOrganizer()).build();
     }

@@ -1,12 +1,18 @@
 package com.tharsis.person.logic;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 
 import com.tharsis.persist.RepositoryJPA;
+import com.tharsis.person.auth.Token;
 import com.tharsis.person.domain.Person;
-import com.tharsis.util.UtilConstant;
+import com.tharsis.person.domain.Role;
+import com.tharsis.util.UtilCollection;
+import com.tharsis.util.UtilEncrypt;
 
 /**
  *
@@ -15,22 +21,27 @@ import com.tharsis.util.UtilConstant;
 @RequestScoped
 public class PersonLogic extends RepositoryJPA<Person, Serializable> {
 
-    public Person savePerson(Person person) {
-        person.setStatus(UtilConstant.ENABLE);
-        return add(person);
+    public boolean login(String dni, String password) {
+
+        if (!"".equals(dni) && !"".equals(password)) {
+            Map<String, Object> param = new HashMap<>();
+            param.put("dni", dni);
+            param.put("password", UtilEncrypt.encryptToSha1(password));
+            List<Role> role = createNamedQuery("Person.login", param, Role.class).getResultList();
+            if (!role.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public Person editPerson(Person person) {
-        return update(person);
-    }
-
-    public Person deletePerson(Person person) {
-        person.setStatus(UtilConstant.DISABLE);
-        return update(person);
-    }
-
-    public Person findPerson(Integer id) {
-        return findById(Person.class, id);
+    public String generateToken(String dni, String uriInfo) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("dni", dni);
+        List<Person> person = createNamedQuery("Person.data", param).getResultList();
+        Person getPerson = UtilCollection.firstElement(person);
+        String tokenGenerated = Token.createToken(getPerson, uriInfo);
+        return tokenGenerated;
     }
 
 }

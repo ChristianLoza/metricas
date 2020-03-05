@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,7 +27,10 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "person")
-@NamedQueries({})
+@NamedQueries({
+    @NamedQuery(name="Person.login", query = "SELECT p.role FROM Person p where p.dni =:dni and p.password =:password AND p.status = 1"),
+    @NamedQuery(name="Person.data", query ="SELECT p FROM Person p WHERE p.dni =:dni AND p.status = 1")
+})
 @Getter
 @Setter
 public class Person implements Serializable {

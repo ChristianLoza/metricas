@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 
 import com.tharsis.persist.RepositoryJPA;
+import com.tharsis.person.auth.Secured;
+import com.tharsis.person.domain.Role;
 import com.tharsis.person.domain.Student;
 import com.tharsis.util.UtilConstant;
 import com.tharsis.util.UtilEncrypt;
@@ -62,7 +64,8 @@ public class StudentLogic extends RepositoryJPA<Student, Serializable> {
                 .getResultList();
         return list;
     }
-
+    
+    @Secured(Role.ORGANIZER)
     public List<Student> allStudent() {
         return findAll("Student.findAllActive");
     }
