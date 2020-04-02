@@ -38,7 +38,8 @@ import lombok.Setter;
     @NamedQuery(name = "Event.findAllEventByDate", query = "SELECT e.idevent, e.eventname, e.dateevent, e.credit, e.site, te.name FROM Event e JOIN e.idtypeevent te WHERE e.dateevent >=:datenow AND e.status = 1"),
     @NamedQuery(name = "Event.findExpired", query = "SELECT e FROM Event e WHERE e.status = 3"),
     @NamedQuery(name = "Event.findByIdorganizer", query = "SELECT e FROM Event e WHERE e.idorganizer = :idorganizer AND e.status = 1"),
-    @NamedQuery(name = "Event.findAllByType", query = "SELECT e, et FROM Event e JOIN e.idtypeevent et WHERE et.ideventtype =:ideventtype AND e.status = 1")
+    @NamedQuery(name = "Event.findAllByType", query = "SELECT e, et FROM Event e JOIN e.idtypeevent et WHERE et.ideventtype =:ideventtype AND e.status = 1"),
+    @NamedQuery(name ="Event.findLastEvent", query = "SELECT e FROM Event e WHERE e.status = 1 ORDER BY e.idevent DESC")
 })
 @Getter
 @Setter

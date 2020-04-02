@@ -19,6 +19,11 @@ import javax.ws.rs.ext.Provider;
 
 import com.tharsis.person.domain.Role;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+
 /**
  *
  * @author christian
@@ -41,19 +46,30 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
         String token = authorizationHeader.substring("Bearer ".length()).trim();
 
-        if (Token.tokenIsValid(token)) {
+        try {
             Role userRole = Role.valueOf(Token.validateToken(token));
-            List<Role> classRole = getRoles(resourceInfo.getResourceClass());
-            List<Role> methodRole = getRoles(resourceInfo.getResourceMethod());
 
-            if (methodRole.size() > 0 && classRole.size() > 0) {
-                if (!methodRole.contains(userRole) && !classRole.contains(userRole)) {
-                    requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
-                    requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+            if (Token.tokenIsValid(token)) {
+                List<Role> classRole = getRoles(resourceInfo.getResourceClass());
+                List<Role> methodRole = getRoles(resourceInfo.getResourceMethod());
+
+                if (methodRole.size() > 0) {
+                    if (!methodRole.contains(userRole)) {
+                        requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+                    }
                 }
+
+                if (classRole.size() > 0) {
+                    if (!classRole.contains(userRole)) {
+                        requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+                    }
+                }
+            } else {
+                throw new NotAuthorizedException(Response.Status.UNAUTHORIZED);
             }
-        } else
-            throw new NotAuthorizedException(Response.Status.UNAUTHORIZED);
+        } catch (NotAuthorizedException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+        }
     }
 
     private List<Role> getRoles(AnnotatedElement annotatedElement) {

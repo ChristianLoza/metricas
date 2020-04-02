@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 
 import com.tharsis.persist.RepositoryJPA;
-import com.tharsis.person.auth.Secured;
 import com.tharsis.person.domain.Role;
 import com.tharsis.person.domain.Student;
 import com.tharsis.util.UtilConstant;
@@ -19,13 +18,15 @@ import com.tharsis.util.UtilEncrypt;
  * @author christian
  */
 @RequestScoped
-//@Log(LogParams.METRICS)
 public class StudentLogic extends RepositoryJPA<Student, Serializable> {
 
-    public void saveStudent(Student student) {
-        student.getPerson().setPassword(UtilEncrypt.encryptToSha1(student.getPerson().getPassword()));
-        student.getPerson().setStatus(UtilConstant.ENABLE);
-        add(student);
+    public void saveStudent(Student student) {                
+        if (findStudentByDni(student.getPerson().getDni())== null) {
+            student.getPerson().setPassword(UtilEncrypt.encryptToSha1(student.getPerson().getPassword()));
+            student.getPerson().setStatus(UtilConstant.ENABLE);
+            student.getPerson().setRole(Role.STUDENT);
+            add(student);
+        }
     }
 
     public void updateStudent(int id, Student student) {
@@ -37,35 +38,39 @@ public class StudentLogic extends RepositoryJPA<Student, Serializable> {
         } else {
             student.getPerson().setPassword(UtilEncrypt.encryptToSha1(student.getPerson().getPassword()));
         }
+        student.getPerson().setStatus(UtilConstant.ENABLE);
+        student.getPerson().setRole(Role.STUDENT);
         update(student);
     }
-
+    
     public void deleteStudent(int id) {
         Student student = findById(Student.class, id);
         student.getPerson().setStatus(UtilConstant.DISABLE);
         update(student);
     }
 
-    public List<Student> findStudentById(int id) {
+    public Student findStudentById(int id) {
         Map<String, Object> param = new HashMap<>();
         param.put("idperson", id);
-        List<Student> list = createNamedQuery("Student.findByIdstudent", param)
-                .setMaxResults(1)
-                .getResultList();
-        return list;
+        Student student =  getSingleResultOrNull("Student.findByIdstudent", param);
+        return student;
+    }
+
+    public Integer findStudentByNfc(String nfc) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("idnfc", nfc);
+        Integer getIdStudent = getSingleResultOrNull("Student.finIdByNfc", param);
+        return getIdStudent;
 
     }
 
-    public List<Student> findStudentByDni(String dni) {
+    public Student findStudentByDni(String dni) {
         Map<String, Object> param = new HashMap<>();
         param.put("dni", dni);
-        List<Student> list = createNamedQuery("Student.findByDnistudent", param)
-                .setMaxResults(1)
-                .getResultList();
-        return list;
+        Student student =  getSingleResultOrNull("Student.findByDnistudent", param);
+        return student;
     }
-    
-    @Secured(Role.ORGANIZER)
+        
     public List<Student> allStudent() {
         return findAll("Student.findAllActive");
     }

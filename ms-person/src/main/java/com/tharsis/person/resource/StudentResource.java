@@ -62,13 +62,31 @@ public class StudentResource {
     @GET
     @Path("{id}")
     public Response getStudentId(@PathParam("id") Integer id) {
-        return Response.ok(studentLogic.findStudentById(id)).build();
+        Student student = studentLogic.findStudentById(id);
+        if (student == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(student).build();
     }
 
     @GET
     @Path("dni/{dni}")
     public Response getStudentDni(@PathParam("dni") String dni) {
-        return Response.ok(studentLogic.findStudentByDni(dni)).build();
+        Student student = studentLogic.findStudentByDni(dni);
+        if (student == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(student).build();
     }
 
+    @GET
+    @Path("nfc/{nfc}")
+    public Response getStudentNfc(@PathParam("nfc") String nfc) {
+        Integer id = studentLogic.findStudentByNfc(nfc);
+        if (id != null) {
+            return Response.ok(studentLogic.findStudentByNfc(nfc)).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+
+    }
 }

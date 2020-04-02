@@ -1,7 +1,5 @@
 package com.tharsis.person.resource;
 
-import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -15,9 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.tharsis.person.auth.Secured;
 import com.tharsis.person.domain.Organizer;
-import com.tharsis.person.domain.Role;
 import com.tharsis.person.logic.OrganizerLogic;
 
 import io.swagger.annotations.Api;
@@ -52,13 +48,13 @@ public class OrganizerResource {
 
     @DELETE
     @Path("delete/{id}")
-    public Response deleteOrganizer(@PathParam("id") Integer id, Organizer organizer) {
+    public Response deleteOrganizer(@PathParam("id") Integer id) {
+        organizerLogic.deleteOrganizer(id);
         return Response.ok().build();
     }
 
     @GET
     @Path("list")
-    @Secured(Role.ORGANIZER)
     public Response getAllOrganizer() {
         return Response.ok(organizerLogic.allOrganizer()).build();
     }
@@ -66,7 +62,10 @@ public class OrganizerResource {
     @GET
     @Path("{id}")
     public Response getOrganizer(@PathParam("id") Integer id) {
-        List<Organizer> list = organizerLogic.findOrganizer(id);
-        return Response.ok(list).build();
+        Organizer organizer = organizerLogic.findOrganizer(id);
+        if (organizer == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(organizer).build();
     }
 }

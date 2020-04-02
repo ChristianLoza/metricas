@@ -22,26 +22,21 @@ import com.tharsis.util.UtilEncrypt;
 public class PersonLogic extends RepositoryJPA<Person, Serializable> {
 
     public boolean login(String dni, String password) {
-
-        if (!"".equals(dni) && !"".equals(password)) {
-            Map<String, Object> param = new HashMap<>();
-            param.put("dni", dni);
-            param.put("password", UtilEncrypt.encryptToSha1(password));
-            List<Role> role = createNamedQuery("Person.login", param, Role.class).getResultList();
-            if (!role.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
+        Map<String, Object> param = new HashMap<>();
+        param.put("dni", dni);
+        param.put("password", UtilEncrypt.encryptToSha1(password));
+        List<Role> role = createNamedQuery("Person.login", param, Role.class).getResultList();
+        return !role.isEmpty();
     }
 
-    public String generateToken(String dni, String uriInfo) {
+    public Map generateToken(String dni, String uriInfo) {
         Map<String, Object> param = new HashMap<>();
         param.put("dni", dni);
         List<Person> person = createNamedQuery("Person.data", param).getResultList();
         Person getPerson = UtilCollection.firstElement(person);
-        String tokenGenerated = Token.createToken(getPerson, uriInfo);
-        return tokenGenerated;
+        Map<String, String> hashMap = new HashMap<>();
+        hashMap.put("key", Token.createToken(getPerson, uriInfo));
+        return hashMap;
     }
 
 }

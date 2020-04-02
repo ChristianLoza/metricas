@@ -71,6 +71,7 @@ public class Person implements Serializable {
     @Column(name = "status")
     @JsonIgnore
     private int status;
+    @JsonIgnore
     @Basic(optional = false)
     @NotNull
     @Column(name = "role")
@@ -86,3 +87,5 @@ public class Person implements Serializable {
     public Person() {
     }
 }
+
+

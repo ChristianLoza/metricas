@@ -9,6 +9,7 @@ import javax.enterprise.context.RequestScoped;
 
 import com.tharsis.persist.RepositoryJPA;
 import com.tharsis.person.domain.Organizer;
+import com.tharsis.person.domain.Role;
 import com.tharsis.util.UtilConstant;
 import com.tharsis.util.UtilEncrypt;
 
@@ -19,9 +20,10 @@ import com.tharsis.util.UtilEncrypt;
 @RequestScoped
 public class OrganizerLogic extends RepositoryJPA<Organizer, Serializable> {
 
-    public void saveOrganizer(Organizer organizer) {
+    public void saveOrganizer(Organizer organizer) {        
         organizer.getPerson().setPassword(UtilEncrypt.encryptToSha1(organizer.getPerson().getPassword()));
         organizer.getPerson().setStatus(UtilConstant.ENABLE);
+        organizer.getPerson().setRole(Role.ORGANIZER);
         add(organizer);
     }
 
@@ -34,6 +36,8 @@ public class OrganizerLogic extends RepositoryJPA<Organizer, Serializable> {
         } else {
             organizer.getPerson().setPassword(UtilEncrypt.encryptToSha1(organizer.getPerson().getPassword()));
         }
+        organizer.getPerson().setStatus(UtilConstant.ENABLE);
+        organizer.getPerson().setRole(Role.ORGANIZER);
         update(organizer);
     }
 
@@ -43,15 +47,11 @@ public class OrganizerLogic extends RepositoryJPA<Organizer, Serializable> {
         update(organizer);
     }
 
-    public List<Organizer> findOrganizer(Integer id) {
+    public Organizer findOrganizer(Integer id) {
         Map<String, Object> param = new HashMap<>();
         param.put("idperson", id);
-
-        List<Organizer> list = createNamedQuery("Organizer.findByIdorganizer", param)
-                .setMaxResults(1)
-                .getResultList();
-
-        return list;
+        Organizer organizer = getSingleResultOrNull("Organizer.findByIdorganizer", param);
+        return organizer;
     }
 
     public List<Organizer> allOrganizer() {

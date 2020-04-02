@@ -66,13 +66,13 @@ public class EventResource {
     }
 
     @GET
-    @Path("listByTypeEvent/{idTypeEvent}")
+    @Path("list-by-type-event/{idTypeEvent}")
     public Response getListEventByType(@PathParam("idTypeEvent") Integer idTypeEvent) {
         return Response.ok(eventLogic.allActiveEventByTypeEvent(idTypeEvent)).build();
     }
 
     @GET
-    @Path("listBydate")
+    @Path("list-by-date")
     public Response listEventBydate() {
         return Response.ok(eventLogic.findAllEventByDate()).build();
     }

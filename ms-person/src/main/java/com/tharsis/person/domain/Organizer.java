@@ -25,8 +25,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "organizer")
 @NamedQueries({
-    @NamedQuery(name = "Organizer.findAllActive", query = "SELECT o.person FROM Organizer o WHERE o.person.status = 1"),
-    @NamedQuery(name = "Organizer.findByIdorganizer", query = "SELECT o.person FROM Organizer o WHERE o.person.idperson = :idperson AND o.person.status = 1")
+    @NamedQuery(name = "Organizer.findAllActive", query = "SELECT p.idperson, p.dni, p.name, p.lastname, p.phone, p.email FROM Organizer o JOIN o.person p WHERE p.status = 1"),
+    @NamedQuery(name = "Organizer.findByIdorganizer", query = "SELECT NEW com.tharsis.person.domain.Organizer(p.idperson, p.dni, p.name, p.lastname, p.phone, p.email) FROM Organizer o JOIN o.person p WHERE p.idperson = :idperson AND p.status = 1")
 
 })
 
@@ -48,6 +48,16 @@ public class Organizer implements Serializable {
     private Person person;
 
     public Organizer() {
+    }
+    //Organizer.findAllActive
+    public Organizer(Integer idperson, String dni, String name, String lastname, String phone, String email) {
+        this.setPerson(new Person());
+        this.getPerson().setIdperson(idperson);
+        this.getPerson().setDni(dni);
+        this.getPerson().setName(name);
+        this.getPerson().setLastname(lastname);
+        this.getPerson().setPhone(phone);
+        this.getPerson().setEmail(email);
     }
 
 }

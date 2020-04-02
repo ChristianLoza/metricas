@@ -38,19 +38,19 @@ public class EventRegisterResource {
     }
 
     @GET
-    @Path("listeventbystudent/{idStudent}")
+    @Path("list-event-by-student/{idStudent}")
     public Response getAllEventRegisterByStudent(@PathParam("idStudent") Integer idStudent) {
         return Response.ok(eventRegisterLogic.listEventRegisterByStudent(idStudent)).build();
     }
 
     @GET
-    @Path("totalcredits/{idStudent}")
+    @Path("total-credits/{idStudent}")
     public Response getSumCreditsByStudent(@PathParam("idStudent") Integer idStudent) {
         return Response.ok(eventRegisterLogic.totalCreditsByIdStudent(idStudent)).build();
     }
 
     @GET
-    @Path("listStudentByEvent/{idEvent}")
+    @Path("list-student-by-event/{idEvent}")
     public Response getStudentByEvent(@PathParam("idEvent") Integer idEvent) {
         return Response.ok(eventRegisterLogic.listStudentByIdEvent(idEvent)).build();
     }

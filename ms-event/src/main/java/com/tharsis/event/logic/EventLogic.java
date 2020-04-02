@@ -16,6 +16,7 @@ import com.tharsis.event.domain.Event;
 import com.tharsis.event.util.Constant;
 import com.tharsis.event.vo.EventVO;
 import com.tharsis.persist.RepositoryJPA;
+import com.tharsis.util.UtilCollection;
 import com.tharsis.util.UtilConstant;
 import com.tharsis.util.UtilDate;
 import com.tharsis.util.UtilObject;
@@ -57,6 +58,7 @@ public class EventLogic extends RepositoryJPA<Event, Serializable> {
         findEvent.setStatus(UtilConstant.DISABLE);
         update(findEvent);
     }
+
     public List<Event> allEventByIdOrganizer(Integer IdOrganizer) {
         Map<String, Object> param = new HashMap<>();
         param.put("idorganizer", IdOrganizer);
@@ -80,7 +82,7 @@ public class EventLogic extends RepositoryJPA<Event, Serializable> {
     public List<Event> allExpiredEvent() {
         return findAll("Event.findExpired");
     }
-    
+
     public List<Event> findAllEventByDate() {
         Map<String, Object> param = new HashMap<>();
         param.put("datenow", new Date());
@@ -88,7 +90,15 @@ public class EventLogic extends RepositoryJPA<Event, Serializable> {
                 .getResultList();
         return list;
     }
-    
+
+    public Event findLastEvent() {
+        List<Event> list = createNamedQuery("Event.findLastEvent", null)
+                .setMaxResults(1)
+                .getResultList();
+        Event event = UtilCollection.firstElement(list);
+        return event;
+    }
+
     private void checkexpiredEvent() {
         List<Event> activeEvent = allActiveEvent();
         for (Event event : activeEvent) {

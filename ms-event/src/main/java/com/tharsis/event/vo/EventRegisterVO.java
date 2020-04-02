@@ -12,7 +12,6 @@ import lombok.Setter;
 public class EventRegisterVO {
 
     private Integer idEvent;
-    private Integer idEventRegister;
     private Integer idstudent;
 
 }

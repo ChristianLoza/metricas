@@ -28,10 +28,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "student")
 @NamedQueries({
-    @NamedQuery(name = "Student.findAllActive", query = "SELECT p.idperson, p.name, p.lastname, p.phone, p.email  FROM Student s JOIN s.person p  WHERE p.status = 1"),
-    @NamedQuery(name = "Student.findByIdstudent", query = "SELECT p.idperson, p.name, p.lastname, p.phone, p.email  FROM Student s JOIN s.person p WHERE p.idperson = :idperson AND p.status = 1"),
-    @NamedQuery(name = "Student.findByDnistudent", query = "SELECT p.idperson, p.name, p.lastname, p.phone, p.email  FROM Student s JOIN s.person p WHERE p.dni = :dni AND p.status = 1"),
-    @NamedQuery(name = "Student.finIdByNfc", query = "SELECT s.person.idperson FROM Student s WHERE s.idnfc = :idnfc AND s.person.status = 1")
+    @NamedQuery(name = "Student.findAllActive", query = "SELECT p.idperson, p.dni, p.name, p.lastname, p.phone, p.email  FROM Student s JOIN s.person p  WHERE p.status = 1"),
+    @NamedQuery(name = "Student.findAllById", query = "SELECT p.idperson, p.dni, p.name, p.lastname, p.phone, p.email  FROM Student s JOIN s.person p  WHERE p.status = 1 AND p.idperson = :idperson"),
+    @NamedQuery(name = "Student.findByIdstudent", query = "SELECT NEW com.tharsis.person.domain.Student(p.idperson, p.dni, p.name, p.lastname, p.phone, p.email, p.status) FROM Student s JOIN s.person p WHERE p.idperson =:idperson AND p.status = 1"),
+    @NamedQuery(name = "Student.findByDnistudent", query = "SELECT NEW  com.tharsis.person.domain.Student(p.idperson, p.dni, p.name, p.lastname, p.phone, p.email)  FROM Student s JOIN s.person p WHERE p.dni = :dni AND p.status = 1"),
+    @NamedQuery(name = "Student.finIdByNfc", query = "SELECT NEW  com.tharsis.person.domain.Student(p.idperson) FROM Student s JOIN s.person p WHERE s.idnfc = :idnfc AND s.person.status = 1")
 })
 
 @Getter
@@ -54,5 +55,30 @@ public class Student implements Serializable {
     private Person person;
 
     public Student() {
+    }
+
+    //p.idperson, p.dni, p.name, p.lastname, p.phone, p.email
+    public Student(Integer idperson, String dni, String name, String lastname, String phone, String email, Integer status) {
+        this.setPerson(new Person());
+        this.getPerson().setIdperson(idperson);
+        this.getPerson().setDni(dni);
+        this.getPerson().setName(name);
+        this.getPerson().setLastname(lastname);
+        this.getPerson().setEmail(email);
+        this.getPerson().setStatus(status);
+    }
+
+    public Student(Integer idperson, String dni, String name, String lastname, String phone, String email) {
+        this.setPerson(new Person());
+        this.getPerson().setIdperson(idperson);
+        this.getPerson().setDni(dni);
+        this.getPerson().setName(name);
+        this.getPerson().setLastname(lastname);
+        this.getPerson().setEmail(email);
+    }
+
+    public Student(Integer idperson) {
+        this.setPerson(new Person());
+        this.getPerson().setIdperson(idperson);
     }
 }

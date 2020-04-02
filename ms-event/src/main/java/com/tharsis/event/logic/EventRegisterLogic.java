@@ -27,25 +27,35 @@ public class EventRegisterLogic extends RepositoryJPA<Eventregister, Serializabl
     private EventLogic eventLogic;
 
     public void saveEventRegister(EventRegisterVO eventRegisterVO) {
-        Event event = eventLogic.findEventById(eventRegisterVO.getIdEvent());
+        Eventregister eventregister;
+        if (eventRegisterVO.getIdEvent() == null) {
+            eventregister = new Eventregister();
+            eventregister.setIdevent(eventLogic.findLastEvent());
 
-        if (event.getStatus() == UtilConstant.ENABLE) {
-            Eventregister eventregister = new Eventregister();
-            eventregister.setIdevent(event);
             eventregister.setIdstudent(eventRegisterVO.getIdstudent());
             eventregister.setTimeentry(new Date());
             eventregister.setStatus(UtilConstant.ENABLE);
             add(eventregister);
+        } else {
+            Event event = eventLogic.findEventById(eventRegisterVO.getIdEvent());
+            if (event.getStatus() == UtilConstant.ENABLE) {
+                eventregister = new Eventregister();
+                eventregister.setIdevent(eventLogic.findEventById(eventRegisterVO.getIdEvent()));
+                eventregister.setIdstudent(eventRegisterVO.getIdstudent());
+                eventregister.setTimeentry(new Date());
+                eventregister.setStatus(UtilConstant.ENABLE);
+                add(eventregister);
+            }
         }
     }
-    
+
     public List<Eventregister> listEventRegisterByStudent(Integer idStudent) {
         Map<String, Object> param = new HashMap<>();
         param.put("idstudent", idStudent);
         List<Eventregister> list = createNamedQuery("Eventregister.findAllbyIdStudent", param).getResultList();
         return list;
     }
-    
+
     public BigDecimal totalCreditsByIdStudent(Integer idStudent) {
         Map<String, Object> param = new HashMap<>();
         param.put("idstudent", idStudent);
@@ -53,11 +63,11 @@ public class EventRegisterLogic extends RepositoryJPA<Eventregister, Serializabl
         BigDecimal result = list.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
         return result;
     }
-    
-    public List<Eventregister> listStudentByIdEvent(Integer idEvent) {
+
+    public List<Integer> listStudentByIdEvent(Integer idEvent) {
         Map<String, Object> map = new HashMap<>();
         map.put("idevent", idEvent);
-        List<Eventregister> list = createNamedQuery("Eventregister.findAllStudentbyEvent", map).getResultList();
+        List<Integer> list = createNamedQuery("Eventregister.findAllStudentbyEvent", map, Integer.class).getResultList();
         return list;
     }
 }
