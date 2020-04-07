@@ -1,4 +1,4 @@
-package com.tharsis.resource;
+package com.tharsis.person.resource;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
