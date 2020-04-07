@@ -8,6 +8,8 @@
     <modules>
         <module>ms-person</module>
         <module>ms-event</module>
+        <module>mavenproject1/ms-info-person</module>
+        <module>ms-info-person</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://academico.ulasalle.edu.pe:8080/services/services/usuario?wsdl" uri="wsdl/academico.ulasalle.edu.pe_8080/services/services/usuario.wsdl"/>
+</catalog>
