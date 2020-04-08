@@ -1,4 +1,4 @@
-package com.tharsis.person.resource;
+package com.tharsis.person.service;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -61,10 +61,11 @@ public class PersonService {
         } else {
             RucVo rucVo = rucService.getDataByRuc(ruc);
 
-            if (rucVo.getStatus() == 0) 
+            if (rucVo.getStatus() == 0) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
-            else
+            } else {
                 return Response.ok(rucVo).build();
+            }
         }
     }
 
