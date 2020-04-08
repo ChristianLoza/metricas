@@ -64,16 +64,22 @@ public class EventResource {
     public Response getListEvent() {
         return Response.ok(eventLogic.allActiveEvent()).build();
     }
+    
+    @GET
+    @Path("list-active-events")
+    public Response getListActiveEvent() {
+        return Response.ok(eventLogic.findAllEventByDate()).build();
+    }
+    
+    @GET
+    @Path("list-expired-events")
+    public Response getExpiredEvent() {
+        return Response.ok(eventLogic.allExpiredEvent()).build();
+    }
 
     @GET
     @Path("list-by-type-event/{idTypeEvent}")
     public Response getListEventByType(@PathParam("idTypeEvent") Integer idTypeEvent) {
         return Response.ok(eventLogic.allActiveEventByTypeEvent(idTypeEvent)).build();
-    }
-
-    @GET
-    @Path("list-by-date")
-    public Response listEventBydate() {
-        return Response.ok(eventLogic.findAllEventByDate()).build();
     }
 }

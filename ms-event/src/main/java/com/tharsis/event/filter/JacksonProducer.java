@@ -21,9 +21,9 @@ public class JacksonProducer implements ContextResolver<ObjectMapper> {
     public JacksonProducer() {
         mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        mapper.setDateFormat(dateFormat);
+        mapper.setDateFormat(dateFormat);                       
     }
 
     @Override
