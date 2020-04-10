@@ -31,7 +31,7 @@ import lombok.Setter;
     @NamedQuery(name = "Student.findAllActive", query = "SELECT p.idperson, p.dni, p.name, p.lastname, p.phone, p.email  FROM Student s JOIN s.person p  WHERE p.status = 1"),
     @NamedQuery(name = "Student.findAllById", query = "SELECT p.idperson, p.dni, p.name, p.lastname, p.phone, p.email  FROM Student s JOIN s.person p  WHERE p.status = 1 AND p.idperson = :idperson"),
     @NamedQuery(name = "Student.findByIdstudent", query = "SELECT NEW com.tharsis.person.domain.Student(p.idperson, p.dni, p.name, p.lastname, p.phone, p.email, p.status) FROM Student s JOIN s.person p WHERE p.idperson =:idperson AND p.status = 1"),
-    @NamedQuery(name = "Student.findByDnistudent", query = "SELECT NEW  com.tharsis.person.domain.Student(p.idperson, p.dni, p.name, p.lastname, p.phone, p.email)  FROM Student s JOIN s.person p WHERE p.dni = :dni AND p.status = 1"),
+    @NamedQuery(name = "Student.findByDnistudent", query = "SELECT NEW  com.tharsis.person.domain.Student(s.idnfc,p.idperson, p.dni, p.name, p.lastname, p.phone, p.email)  FROM Student s JOIN s.person p WHERE p.dni = :dni AND p.status = 1"),
     @NamedQuery(name = "Student.finIdByNfc", query = "SELECT NEW  com.tharsis.person.domain.Student(p.idperson) FROM Student s JOIN s.person p WHERE s.idnfc = :idnfc AND s.person.status = 1")
 })
 
@@ -57,13 +57,14 @@ public class Student implements Serializable {
     public Student() {
     }
 
-    //p.idperson, p.dni, p.name, p.lastname, p.phone, p.email
+    //Student.findByIdstudent
     public Student(Integer idperson, String dni, String name, String lastname, String phone, String email, Integer status) {
         this.setPerson(new Person());
         this.getPerson().setIdperson(idperson);
         this.getPerson().setDni(dni);
         this.getPerson().setName(name);
         this.getPerson().setLastname(lastname);
+        this.getPerson().setPhone(phone);
         this.getPerson().setEmail(email);
         this.getPerson().setStatus(status);
     }
@@ -74,9 +75,23 @@ public class Student implements Serializable {
         this.getPerson().setDni(dni);
         this.getPerson().setName(name);
         this.getPerson().setLastname(lastname);
+        this.getPerson().setPhone(phone);
         this.getPerson().setEmail(email);
     }
 
+    //Student.findByDnistudent
+    public Student(String idnfc, Integer idperson, String dni, String name, String lastName, String phone, String email) {
+        this.setIdnfc(idnfc);
+        this.setPerson(new Person());
+        this.getPerson().setIdperson(idperson);
+        this.getPerson().setDni(dni);
+        this.getPerson().setName(name);
+        this.getPerson().setLastname(lastName);
+        this.getPerson().setPhone(phone);
+        this.getPerson().setEmail(email);
+    }
+
+    //Student.finIdByNfc
     public Student(Integer idperson) {
         this.setPerson(new Person());
         this.getPerson().setIdperson(idperson);
