@@ -58,6 +58,12 @@ public class StudentResource {
     public Response getAllStudent() {
         return Response.ok(studentLogic.allStudent()).build();
     }
+    
+    @GET
+    @Path("list/{limit}")
+    public Response getAllStudentLimit(@PathParam("limit") Integer limit) {
+        return Response.ok(studentLogic.allStudent(limit)).build();
+    }
 
     @GET
     @Path("{id}")

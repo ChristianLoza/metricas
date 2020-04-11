@@ -21,10 +21,10 @@ import com.tharsis.person.logic.StudentLogic;
 import com.tharsis.person.resource.Resource;
 import com.tharsis.person.resource.StudentResource;
 
+import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.RestAssured.with;
 import io.restassured.http.ContentType;
-import io.restassured.response.ResponseBody;
 
 /**
  *
@@ -71,53 +71,99 @@ public class StudentTest {
                 .when()
                 .request("POST", "v1/student/add")
                 .then()
-                .statusCode(200);
+                .statusCode(200).log()
+                .all();
     }
 
     @Test
     @RunAsClient
     public void updateStudent() {
 
+        Integer idStudent = 991;
+
+        Student student = new Student();
+        student.setIdnfc("NFC-123");
+        Person person = new Person();
+        student.setPerson(person);
+        student.getPerson().setName("Test user");
+        student.getPerson().setLastname("Last username");
+        student.getPerson().setDni("46218218");
+        student.getPerson().setPassword("123");
+        student.getPerson().setPhone("997031188");
+        student.getPerson().setEmail("4621821@localhost.com");
+
+        given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(student)
+                .when()
+                .put("v1/student/edit/" + idStudent)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .log()
+                .all();
     }
 
     @Test
     @RunAsClient
     public void deleteStudent() {
+        given()
+                .delete("v1/student/delete/991")
+                .then()
+                .statusCode(204)
+                .log()
+                .all();
 
     }
 
     @Test
     @RunAsClient
     public void findStudentId() {
-
+        given()
+                .accept(ContentType.JSON)
+                .get("v1/student/1000")
+                .then()
+                .statusCode(200)
+                .log()
+                .all();
     }
 
     @Test
     @RunAsClient
     public void findStudentNfc() {
-
+        given().contentType(ContentType.JSON)
+                .get("v1/student/nfc/1000")
+                .then()
+                .statusCode(200)
+                .log()
+                .all();
     }
 
     @Test
     @RunAsClient
     public void findStudentDni() {
-        ResponseBody body = when().get("v1/student/list").getBody();
-        System.out.println(body.asString());
-        when().get("v1/student/list").then().statusCode(200);
+        given().get("v1/student/dni/72193232")
+                .then()
+                .statusCode(200)
+                .log()
+                .all();
     }
 
     @Test
     @RunAsClient
     public void getAllStudentTest() {
-//        ResponseBody body =  when().get("v1/student/list").getBody();
-//        System.out.println(body.asString());
-        when().get("v1/student/list").then().statusCode(200);
+        when().get("v1/student/list")
+                .then()
+                .statusCode(200);
     }
 
     @Test
     @RunAsClient
     public void getAllStudentTestLimit() {
-
+        when().get("v1/student/list/2")
+                .then()
+                .statusCode(200);
     }
 
 }
