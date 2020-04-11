@@ -23,6 +23,9 @@
         <mysql-version>5.1.48</mysql-version>
         <lombok-version>1.18.10</lombok-version>
         
+        <kumuluzee-arquillian-container.version>1.1.0</kumuluzee-arquillian-container.version>
+        <arquillian.version>1.4.0.Final</arquillian.version>
+        <junit.version>4.12</junit.version>
         
     </properties>
     <dependencyManagement>
@@ -31,6 +34,14 @@
                 <groupId>com.kumuluz.ee</groupId>
                 <artifactId>kumuluzee-bom</artifactId>
                 <version>${kumuluzee.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${arquillian.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -122,6 +133,33 @@
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-json-p-jsonp</artifactId>
         </dependency>
+        
+        <!-- Testing libraries --> 
+        <dependency>
+            <groupId>com.kumuluz.ee.testing</groupId>
+            <artifactId>kumuluzee-arquillian-container</artifactId>
+            <version>${kumuluzee-arquillian-container.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>4.3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Testing libraries --> 
         
         <!-- 
 <dependency>
