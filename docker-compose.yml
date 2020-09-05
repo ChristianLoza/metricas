@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ms-person:
+    build:
+      context: ./ms-person
+    image: christianlzap/ms-person:${PERSON_TAG}
+  ms-event:
+    build:
+      context: ./ms-event
+    image: christianlzap/ms-event:${EVENT_TAG}

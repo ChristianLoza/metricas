@@ -60,8 +60,8 @@ public class PersonTest {
     public void loginTest() {
 
         LoginVO loginVO = new LoginVO();
-        loginVO.setDni("46218219");
-        loginVO.setPassword("46218219");
+        loginVO.setDni("73444229");
+        loginVO.setPassword("73444229");
 
         given().contentType(ContentType.JSON)
                 .body(loginVO)

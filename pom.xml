@@ -168,11 +168,16 @@
     <version>${kumuluzee-logs.version}</version>
 </dependency>
         -->
-        <dependency>
+<!--        <dependency>
             <groupId>com.ms.architecture</groupId>
             <artifactId>ms-iot-architecture</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency>-->
+        <dependency>
+	    <groupId>com.gitlab.christianlzap</groupId>
+	    <artifactId>ms-iot-architecture</artifactId>
+	    <version>v1.1.0</version>
+	</dependency>
     </dependencies>
     
     
