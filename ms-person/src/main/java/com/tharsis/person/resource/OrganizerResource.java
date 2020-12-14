@@ -1,7 +1,5 @@
 package com.tharsis.person.resource;
 
-import java.time.temporal.ChronoUnit;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -14,9 +12,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
-import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import com.tharsis.person.domain.Organizer;
 import com.tharsis.person.logic.OrganizerLogic;
@@ -58,8 +53,6 @@ public class OrganizerResource {
         return Response.ok().build();
     }
 
-    @CircuitBreaker
-    @Timeout(value=2, unit = ChronoUnit.SECONDS)
     @GET
     @Path("list")
     public Response getAllOrganizer() {
