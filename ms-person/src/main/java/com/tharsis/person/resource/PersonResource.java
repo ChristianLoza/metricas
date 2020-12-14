@@ -1,5 +1,7 @@
 package com.tharsis.person.resource;
 
+import java.time.temporal.ChronoUnit;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -10,6 +12,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import com.tharsis.person.logic.PersonLogic;
 import com.tharsis.person.vo.LoginVO;
@@ -31,6 +36,8 @@ public class PersonResource {
     @Inject
     private PersonLogic personLogic;
 
+    @CircuitBreaker
+    @Timeout(value = 2, unit = ChronoUnit.SECONDS)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
