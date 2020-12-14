@@ -1,7 +1,5 @@
 package com.tharsis.event.resource;
 
-import java.time.temporal.ChronoUnit;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -12,9 +10,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
-import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import com.tharsis.event.logic.EventRegisterLogic;
 import com.tharsis.event.vo.EventRegisterVO;
@@ -42,24 +37,18 @@ public class EventRegisterResource {
         return Response.ok().build();
     }
     
-    @CircuitBreaker
-    @Timeout(value = 5, unit = ChronoUnit.SECONDS)
     @GET
     @Path("list-event-by-student/{idStudent}")
     public Response getAllEventRegisterByStudent(@PathParam("idStudent") Integer idStudent) {
         return Response.ok(eventRegisterLogic.listEventRegisterByStudent(idStudent)).build();
     }
 
-    @CircuitBreaker
-    @Timeout(value = 5, unit = ChronoUnit.SECONDS)
     @GET
     @Path("total-credits/{idStudent}")
     public Response getSumCreditsByStudent(@PathParam("idStudent") Integer idStudent) {
         return Response.ok(eventRegisterLogic.totalCreditsByIdStudent(idStudent)).build();
     }
 
-    @CircuitBreaker
-    @Timeout(value = 5, unit = ChronoUnit.SECONDS)
     @GET
     @Path("list-student-by-event/{idEvent}")
     public Response getStudentByEvent(@PathParam("idEvent") Integer idEvent) {
